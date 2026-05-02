@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>送给妈妈的生日礼物</title>
+    <style>
+        /* ================= 基础与背景 ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-image: repeating-linear-gradient(-45deg, #FF5A5F, #FF5A5F 30px, #FFCA28, #FFCA28 60px);
+            background-size: 85px 85px; 
+            animation: stripeMove 2s linear infinite;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-around;
+            padding: 20px; color: #FFFFFF; overflow: hidden; position: relative; 
+            user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+        }
+        @keyframes stripeMove { 0% { background-position: 0 0; } 100% { background-position: 85px 85px; } }
+
+        /* ================= 第一页 UI 元素 ================= */
+        h1 { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 5vh; z-index: 10; }
+        .title-text { font-size: 2.2rem; font-weight: bold; letter-spacing: 4px; text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.8); animation: textGlow 2.5s ease-in-out infinite alternate; }
+        @keyframes textGlow { 0% { text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.6); } 100% { text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 1), 0 0 40px #FFFFFF; } }
+        .emoji { font-size: 2.4rem; display: inline-block; }
+        .left-emoji { animation: floatLeft 2s ease-in-out infinite; }
+        @keyframes floatLeft { 0%, 100% { transform: translateY(0) rotate(-15deg); } 50% { transform: translateY(-15px) rotate(15deg); } }
+        .right-emoji { animation: floatRight 3.5s ease-in-out infinite; }
+        @keyframes floatRight { 0%, 100% { transform: translateY(0) rotate(10deg); } 50% { transform: translateY(-8px) rotate(-5deg); } }
+
+        .photo-frame { position: relative; width: 290px; height: 370px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 202, 40, 0.4); display: flex; justify-content: center; align-items: center; z-index: 10; animation: floatFrame 4s ease-in-out infinite; overflow: hidden; padding: 6px; }
+        .photo-frame::before { content: ""; position: absolute; width: 150%; height: 150%; background: conic-gradient(#FFCA28, #FF5A5F, #FFFFFF, #FFCA28); animation: rotateGlow 3s linear infinite; z-index: 0; }
+        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes floatFrame { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .photo-frame img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; border-radius: 11px; border: 2px solid rgba(255, 255, 255, 0.8); cursor: pointer; transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .photo-frame img:active { transform: scale(0.92); }
+
+        .jump-emoji { position: fixed; font-size: 2.5rem; pointer-events: none; z-index: 9999; animation: popAnimation 0.8s ease-out forwards; }
+        @keyframes popAnimation { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 50% { opacity: 1; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.3); } 100% { opacity: 0; transform: translate(calc(-50% + var(--tx) * 1.5), calc(-50% + var(--ty) - 50px)) scale(1); } }
+
+        #main-ui { display: flex; flex-direction: column; align-items: center; justify-content: space-around; width: 100%; height: 100%; z-index: 10; transition: opacity 1s ease; }
+
+        .candle-btn { background-color: #FFFFFF; color: #E53935; font-size: 1.5rem; font-weight: bold; padding: 15px 50px; border: none; border-radius: 40px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); margin-bottom: 5vh; letter-spacing: 2px; cursor: pointer; transition: all 0.3s ease; animation: pulseBtn 2s infinite; z-index: 20; }
+        @keyframes pulseBtn { 0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); } 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); } }
+        .candle-btn:active { transform: scale(0.95); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+
+        .balloon { position: absolute; bottom: -50px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; animation: flyUp 10s linear infinite; z-index: 1; }
+        .balloon::after { content: ""; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 2px; height: 20px; background-color: rgba(255, 255, 255, 0.4); }
+        .b1 { width: 40px; height: 50px; left: 10%; animation-duration: 8s; animation-delay: 0s; } .b2 { width: 60px; height: 75px; left: 30%; animation-duration: 12s; animation-delay: 2s; background-color: rgba(255, 255, 255, 0.4); } .b3 { width: 30px; height: 40px; left: 70%; animation-duration: 7s; animation-delay: 4s; } .b4 { width: 50px; height: 60px; left: 85%; animation-duration: 11s; animation-delay: 1s; }
+        @keyframes flyUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; } }
+
+        /* ================= 关灯与灯箱 ================= */
+        #dark-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.85); z-index: 100; opacity: 0; pointer-events: none; transition: background-color 2s ease, opacity 1s ease; }
+        #cake-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); display: flex; flex-direction: column; align-items: center; z-index: 200; opacity: 0; pointer-events: none; transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        #cake-modal.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+        .wish-hint { font-size: 1.8rem; font-weight: bold; color: #FFD54F; text-shadow: 0 0 15px rgba(255, 213, 79, 0.8); margin-bottom: 30px; letter-spacing: 2px; animation: floatHint 2s ease-in-out infinite alternate; }
+        @keyframes floatHint { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
+        #cake-img { width: 250px; height: auto; filter: drop-shadow(0 0 20px rgba(255, 202, 40, 0.6)); transition: transform 0.3s ease, filter 0.3s ease; cursor: pointer; }
+        #cake-img.pressing { transform: scale(0.9); filter: drop-shadow(0 0 40px rgba(255, 202, 40, 1)) brightness(1.2); }
+        #cake-img.blown-out { filter: drop-shadow(0 0 0 rgba(0,0,0,0)) brightness(0.2) grayscale(0.5); transition: filter 1.5s ease; }
+
+        /* ================= 祝福页与纯 CSS 卷轴 ================= */
+        #blessing-page { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+        #blessing-page.show { opacity: 1; pointer-events: auto; }
+        #open-hint { font-size: 1.5rem; font-weight: bold; color: #FFFFFF; text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 202, 40, 0.8); margin-bottom: 20px; letter-spacing: 2px; cursor: pointer; animation: floatHint 2s ease-in-out infinite alternate; transition: opacity 0.5s ease; }
+        #scroll-wrapper { width: 320px; display: flex; flex-direction: column; align-items: center; cursor: pointer; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4)); }
+        .scroll-roller { width: 100%; height: 26px; background: linear-gradient(to bottom, #5c3012, #8b4513, #5c3012); border-radius: 13px; box-shadow: inset 0 2px 5px rgba(255,255,255,0.2), 0 5px 10px rgba(0,0,0,0.5); z-index: 2; position: relative; }
+        .scroll-paper { width: 90%; background-color: #FDF5E6; background-image: linear-gradient(rgba(139, 69, 19, 0.1) 1px, transparent 1px); background-size: 100% 32px; box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.15); max-height: 0; overflow: hidden; transition: max-height 1.5s cubic-bezier(0.25, 1, 0.5, 1); z-index: 1; margin-top: -10px; margin-bottom: -10px; }
+        #scroll-wrapper.opened .scroll-paper { max-height: 600px; }
+        .letter-content { padding: 40px 25px; font-family: "SimHei", "黑体", sans-serif; font-size: 1.1rem; color: #333333; line-height: 32px; text-align: justify; }
+        #flower-btn { color: #800080; font-weight: bold; cursor: pointer; position: relative; z-index: 10; display: inline-block; transition: transform 0.2s ease, text-shadow 0.2s ease; }
+        #flower-btn:active { transform: scale(0.9); text-shadow: 0 0 10px rgba(128, 0, 128, 0.5); }
+
+        /* ================= 满屏花海特效 ================= */
+        .flower-item {
+            position: fixed;
+            z-index: 9999; 
+            pointer-events: none; 
+            transform-origin: center center;
+            opacity: 0;
+            animation: flowerPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes flowerPop {
+            0% { opacity: 0; transform: scale(0) rotate(var(--start-rot)); }
+            100% { opacity: 1; transform: scale(1) rotate(var(--end-rot)); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="main-ui">
+        <h1><span class="emoji left-emoji">🎉</span><span class="title-text">妈妈生日快乐</span><span class="emoji right-emoji">🎂</span></h1>
+        <div class="photo-frame"><img src="mom-photo.jpg" alt="妈妈的照片" id="interactive-photo"></div>
+        <button class="candle-btn" id="start-btn">吹蜡烛</button>
+        <div class="balloon b1"></div><div class="balloon b2"></div><div class="balloon b3"></div><div class="balloon b4"></div>
+    </div>
+
+    <div id="dark-overlay"></div>
+
+    <div id="cake-modal">
+        <p class="wish-hint" id="wish-text">长按蛋糕许愿</p>
+        <img src="cake.png" alt="生日蛋糕" id="cake-img">
+    </div>
+
+    <div id="blessing-page">
+        <p id="open-hint">点击开启祝福语</p>
+        <div id="scroll-wrapper">
+            <div class="scroll-roller top-roller"></div>
+            <div class="scroll-paper">
+                <div class="letter-content">
+                    恭喜妈妈又小一岁！越来越年轻！<br><br>
+                    今年大家都非常开心，所以今年的生日礼物一定要更加特别一些，所以做了一个这个网站给你。<br><br>
+                    希望在未来的日子里，妈妈都能够天天开心，为着自己的梦想和生活不断前进和努力！<br><br>
+                    还有你不是喜欢花吗？那就<span id="flower-btn">点一下这里</span>。
+                </div>
+            </div>
+            <div class="scroll-roller bottom-roller"></div>
+        </div>
+    </div>
+
+    <script>
+        /* 照片点击特效 */
+        const photo = document.getElementById('interactive-photo');
+        const popEmojis = ['🎉', '🎊', '✨', '🎈', '🎁', '💖', '🎇', '🌸'];
+        photo.addEventListener('click', function(e) {
+            const fireworkSound = new Audio('firework.mp3'); fireworkSound.play().catch(e => {});
+            const emojiEl = document.createElement('div'); emojiEl.className = 'jump-emoji'; emojiEl.innerText = popEmojis[Math.floor(Math.random() * popEmojis.length)];
+            const clickX = e.clientX || (e.touches && e.touches[0].clientX); const clickY = e.clientY || (e.touches && e.touches[0].clientY);
+            emojiEl.style.left = clickX + 'px'; emojiEl.style.top = clickY + 'px';
+            const tx = (Math.random() - 0.5) * 300; const ty = (Math.random() - 0.5) * 150 - 100; 
+            emojiEl.style.setProperty('--tx', `${tx}px`); emojiEl.style.setProperty('--ty', `${ty}px`);
+            document.body.appendChild(emojiEl); setTimeout(() => { emojiEl.remove(); }, 800);
+        });
+
+        /* 全局元素抓取 */
+        const startBtn = document.getElementById('start-btn');
+        const darkOverlay = document.getElementById('dark-overlay');
+        const cakeModal = document.getElementById('cake-modal');
+        const cakeImg = document.getElementById('cake-img');
+        const wishText = document.getElementById('wish-text');
+        const mainUi = document.getElementById('main-ui');
+        const blessingPage = document.getElementById('blessing-page');
+        const scrollWrapper = document.getElementById('scroll-wrapper');
+        const openHint = document.getElementById('open-hint');
+        const flowerBtn = document.getElementById('flower-btn');
+
+        let bgmAudio = new Audio('bgm.mp3'); bgmAudio.loop = true;
+        let blowAudio = new Audio('blow.mp3'); 
+
+        /* 1. 吹蜡烛流 */
+        startBtn.addEventListener('click', () => { bgmAudio.play().catch(e => {}); darkOverlay.style.opacity = '1'; cakeModal.classList.add('show'); });
+
+        let pressTimer; let isPressing = false; const REQUIRE_HOLD_TIME = 3000;
+        const startPress = (e) => { e.preventDefault(); isPressing = true; cakeImg.classList.add('pressing'); wishText.innerText = "许愿中..."; pressTimer = setTimeout(() => { if(isPressing) blowOutCandles(); }, REQUIRE_HOLD_TIME); };
+        const cancelPress = () => { if (!isPressing) return; isPressing = false; cakeImg.classList.remove('pressing'); wishText.innerText = "长按蛋糕许愿"; clearTimeout(pressTimer); };
+
+        cakeImg.addEventListener('mousedown', startPress); cakeImg.addEventListener('touchstart', startPress);
+        cakeImg.addEventListener('mouseup', cancelPress); cakeImg.addEventListener('mouseleave', cancelPress);
+        cakeImg.addEventListener('touchend', cancelPress); cakeImg.addEventListener('touchcancel', cancelPress);
+
+        function blowOutCandles() {
+            isPressing = false; clearTimeout(pressTimer); blowAudio.play().catch(e => {});
+            wishText.innerText = "生日快乐！"; cakeImg.classList.remove('pressing'); cakeImg.classList.add('blown-out');
+            darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+            let vol = 1; let fadeOut = setInterval(() => { if (vol > 0.1) { vol -= 0.1; bgmAudio.volume = vol; } else clearInterval(fadeOut); }, 200);
+            setTimeout(() => { cakeModal.classList.remove('show'); mainUi.style.display = 'none'; darkOverlay.style.opacity = '0'; blessingPage.classList.add('show'); }, 2000);
+        }
+
+        /* 卷轴展开 */
+        scrollWrapper.addEventListener('click', function() { if (!this.classList.contains('opened')) { this.classList.add('opened'); openHint.style.opacity = '0'; } });
+
+        /* ================= 终极彩蛋：满屏花海 + 音效 ================= */
+        flowerBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            
+            if (this.dataset.clicked) return;
+            this.dataset.clicked = true;
+
+            const flowerImages = ['flower1.png', 'flower2.png', 'flower3.png', 'flower4.png'];
+            const totalFlowers = 60; 
+            let delay = 0;
+
+            for (let i = 0; i < totalFlowers; i++) {
+                setTimeout(() => {
+                    // 【新增：在这里同时触发“啵”的音效】
+                    const popAudio = new Audio('pop.mp3');
+                    popAudio.play().catch(e => {});
+
+                    const flower = document.createElement('img');
+                    flower.className = 'flower-item';
+                    
+                    flower.src = flowerImages[Math.floor(Math.random() * flowerImages.length)];
+
+                    const size = Math.floor(Math.random() * 80) + 60;
+                    flower.style.width = size + 'px';
+                    flower.style.height = size + 'px';
+
+                    const posX = Math.floor(Math.random() * (window.innerWidth - size));
+                    const posY = Math.floor(Math.random() * (window.innerHeight - size));
+                    flower.style.left = posX + 'px';
+                    flower.style.top = posY + 'px';
+
+                    const startRot = (Math.floor(Math.random() * 90) - 45) + 'deg';
+                    const endRot = Math.floor(Math.random() * 360) + 'deg';
+                    flower.style.setProperty('--start-rot', startRot);
+                    flower.style.setProperty('--end-rot', endRot);
+
+                    document.body.appendChild(flower);
+                }, delay);
+
+                delay += Math.max(30, 150 - (i * 2.5));
+            }
+        });
+    </script>
+</body>
+</html>
